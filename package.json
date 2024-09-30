@@ -1,0 +1,53 @@
+{
+  "name": "realestate",
+  "version": "1.0.0",
+<<<<<<< HEAD
+=======
+  "description": "",
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+<<<<<<< HEAD
+    "start": "node api/index.js"
+=======
+    "start": "node api/index.js",
+    "build": "react-scripts build"
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+<<<<<<< HEAD
+=======
+    "react-scripts": "4.0.3",
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+<<<<<<< HEAD
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+=======
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.1",
+    "mongoose": "^8.3.2",
+    "swiper": "^11.1.1"
+<<<<<<< HEAD
+  },
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
+=======
+  }
+}
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52

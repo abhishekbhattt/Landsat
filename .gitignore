@@ -1,0 +1,10 @@
+node_modules/
+<<<<<<< HEAD
+.env/
+client/node_modules/
+api/utils/
+=======
+.env
+client/node_modules
+client\src\mediaContent
+>>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
