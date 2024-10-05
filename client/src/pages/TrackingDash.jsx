@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
+import Footer from "../components/Footer";
 import axios from "axios";
 import {
   GoogleMap,
@@ -8,16 +9,18 @@ import {
   Circle,
   InfoWindow,
 } from "@react-google-maps/api";
+
+
 import { getDistance } from "geolib"; // For calculating distance
 import emailjs from "@emailjs/browser"; // Import emailjs
 
 const containerStyle = {
   width: "100%",
   height: "60vh",
-  // comment
 };
 
-const blueMarkerIcon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+const blueMarkerIcon =
+  "https://img.icons8.com/?size=40&id=uRvqauJrCCGj&format=png&color=000000";
 const GEOCODING_API_KEY = "YOUR_GEOCODING_API_KEY";
 const DEFAULT_RADIUS = 500000; // 500 km in meters
 
@@ -60,17 +63,17 @@ const IssTracker = () => {
       try {
         if (!checkRange) {
           await emailjs.send(
-            "service_vzw8rsn", // Replace with your EmailJS service ID
-            "template_pwur74l", // Replace with your EmailJS template ID
+            "service_q1otemr", // Replace with your EmailJS service ID
+            "template_qbojvsf ", // Replace with your EmailJS template ID
             emailParams,
-            "0SDjTOB4zK7vrG5QG" // Replace with your EmailJS public key
+            "DBMF9I3Jikp5Rmyjt" // Replace with your EmailJS public key
           );
-          // console.log(`SUCCESS! Email sent to ${userEmail}`);
+          console.log(`SUCCESS! Email sent to ${userEmail}`);
           setEmailSent(true); // Ensure email is not sent repeatedly
           checkRange = true;
         }
       } catch (error) {
-        // console.log("FAILED...", error.text);
+        console.log("FAILED...", error.text);
       }
     }
   };
@@ -97,9 +100,9 @@ const IssTracker = () => {
         },
         { latitude: issLat, longitude: issLong }
       );
-      setDistanceToIss(distance);
+      setDistanceToIss((distance / 1000).toFixed(2));
 
-      const issIsClose = distance > 0 && distance <= 500000; // within 500 km
+      const issIsClose = distance > 0 && distance <= 500; // within 500 km
       setIsIssClose(issIsClose);
 
       if (issIsClose && !emailSent) {
@@ -231,107 +234,138 @@ const IssTracker = () => {
   }, []);
 
   return (
-    <div className="mt-12 ml-3">
-      <h1>ISS Tracker</h1>
-      <div className="m-10px font-bold">
-        <h2>Current Location</h2>
-        {error ? (
-          <p>Error: {error}</p>
-        ) : (
-          <div>
-            <p>Latitude: {latitude}</p>
-            <p>Longitude: {longitude}</p>
-          </div>
-        )}
-      </div>
-      <form
-        ref={form}
-        onSubmit={(e) => {
-          e.preventDefault();
-          setUserLocationPosition({
-            lat: parseFloat(userLat),
-            lng: parseFloat(userLong),
-          });
-          setMapCenter({ lat: parseFloat(userLat), lng: parseFloat(userLong) });
-        }}
-        className="space-y-4 mb-8"
-      >
-        <div>
-          <label className="block text-lg font-semibold mb-2">
-            Enter Latitude:
-          </label>
-          <input
-            type="number"
-            step="any"
-            name="user_lat"
-            value={userLat}
-            onChange={(e) => setUserLat(e.target.value)}
-            placeholder="Enter latitude..."
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <div>
-          <label className="block text-lg font-semibold mb-2">
-            Enter Longitude:
-          </label>
-          <input
-            type="number"
-            step="any"
-            name="user_long"
-            value={userLong}
-            onChange={(e) => setUserLong(e.target.value)}
-            placeholder="Enter longitude..."
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Update Location
-        </button>
-      </form>
+    <div>
+      <div className="mt-12 ml-3 bg-gray-100 p-8 rounded-lg shadow-lg">
+        {/* Title Section */}
+        <h1 className="text-3xl font-bold mb-6 text-blue-700">ISS Tracker</h1>
 
-      <p>It is currently {isNightTime ? "night time" : "day time"}</p>
-      <p>Distance to ISS: {distanceToIss} meters</p>
-      <p>Arrival Time: {arrivalTime}</p>
-
-      <LoadScript googleMapsApiKey="AIzaSyC3mZg6P7r2AzeOdm4XiQTmHora9Zs3fGQ">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={10}
-          onClick={handleMapClick}
-          onDblClick={handleMapDblClick}
-        >
-          <Marker position={userLocationPosition} label="User Location" />
-          <Marker
-            position={issPosition}
-            icon={blueMarkerIcon}
-            onClick={handleMarkerClick}
-          />
-          {showInfoWindow && (
-            <InfoWindow position={issPosition}>
-              <div>
-                <h3>ISS Location</h3>
-                <p>Lat: {issPosition.lat}</p>
-                <p>Lng: {issPosition.lng}</p>
-              </div>
-            </InfoWindow>
+        {/* Current Location Section */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Current Location
+          </h2>
+          {error ? (
+            <p className="text-red-600">Error: {error}</p>
+          ) : (
+            <div className="text-lg text-gray-700 space-y-2">
+              <p>Latitude: {issPosition.lat}</p>
+              <p>Longitude: {issPosition.lng}</p>
+            </div>
           )}
-          <Circle
-            center={userLocationPosition}
-            radius={DEFAULT_RADIUS}
-            options={{
-              fillColor: "lightblue",
-              fillOpacity: 0.3,
-              strokeColor: "blue",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-            }}
-          />
-        </GoogleMap>
-      </LoadScript>
+        </div>
+
+        {/* Form Section */}
+        <form
+          ref={form}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setUserLocationPosition({
+              lat: parseFloat(userLat),
+              lng: parseFloat(userLong),
+            });
+            setMapCenter({
+              lat: parseFloat(userLat),
+              lng: parseFloat(userLong),
+            });
+          }}
+          className="space-y-6 mb-8 bg-white p-6 rounded-lg shadow"
+        >
+          {/* Latitude Input */}
+          <div>
+            <label className="block text-lg font-semibold mb-2 text-gray-800">
+              Enter Latitude:
+            </label>
+            <input
+              type="number"
+              step="any"
+              name="user_lat"
+              value={userLat}
+              onChange={(e) => setUserLat(e.target.value)}
+              placeholder="Enter latitude..."
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Longitude Input */}
+          <div>
+            <label className="block text-lg font-semibold mb-2 text-gray-800">
+              Enter Longitude:
+            </label>
+            <input
+              type="number"
+              step="any"
+              name="user_long"
+              value={userLong}
+              onChange={(e) => setUserLong(e.target.value)}
+              placeholder="Enter longitude..."
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+          >
+            Update Location
+          </button>
+        </form>
+
+        {/* Time and Distance Information */}
+        <div className="space-y-4">
+          <p className="text-lg text-gray-800">
+            It is currently{" "}
+            <span className="font-semibold">
+              {isNightTime ? "night time" : "day time"}
+            </span>
+          </p>
+          <p className="text-lg text-gray-800">
+            Distance to ISS:{" "}
+            <span className="font-semibold">{distanceToIss} Kilometers</span>
+          </p>
+          <p className="text-lg text-gray-800">
+            Arrival Time: <span className="font-semibold">{arrivalTime}</span>
+          </p>
+        </div>
+
+        <LoadScript googleMapsApiKey="AIzaSyC3mZg6P7r2AzeOdm4XiQTmHora9Zs3fGQ">
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={10}
+            onClick={handleMapClick}
+            onDblClick={handleMapDblClick}
+          >
+            <Marker position={userLocationPosition} label="User Location" />
+            <Marker
+              position={issPosition}
+              icon={blueMarkerIcon}
+              onClick={handleMarkerClick}
+            />
+            {showInfoWindow && (
+              <InfoWindow position={issPosition}>
+                <div>
+                  <h3>ISS Location</h3>
+                  <p>Lat: {issPosition.lat}</p>
+                  <p>Lng: {issPosition.lng}</p>
+                </div>
+              </InfoWindow>
+            )}
+            <Circle
+              center={userLocationPosition}
+              radius={DEFAULT_RADIUS}
+              options={{
+                fillColor: "lightblue",
+                fillOpacity: 0.3,
+                strokeColor: "blue",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+              }}
+            />
+          </GoogleMap>
+        </LoadScript>
+      </div>
+      <Footer />
     </div>
   );
 };
