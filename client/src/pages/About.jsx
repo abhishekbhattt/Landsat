@@ -1,30 +1,40 @@
 import React from "react";
 import Footer from "../components/Footer";
-
+import AbhishekPhoto from "../mediaContent/Abhishek1.jpg";
+import DakshPhoto from "../mediaContent/daksh.jpg";
+import SaurabhPhoto from "../mediaContent/saurabh.jpg";
+import AanchalPhoto from "../mediaContent/aanchal.jpg";
+import SandarbhPhoto from "../mediaContent/sandarbh.jpeg";
 const teamMembers = [
   {
     name: "Abhishek Bhatt",
     role: "B.Tech CSE Student",
     linkedin: "https://www.linkedin.com/in/abhishek-bhatt-537781232",
-    photo: "../mediaContent/alice.jpg",
+    photo: AbhishekPhoto,
   },
   {
     name: "Daksh Bamola",
     role: "B.Tech CSE Student",
     linkedin: "https://www.linkedin.com/in/daksh-bamola-537027290",
-    photo: "../mediaContent/bob.jpg",
+    photo: DakshPhoto,
   },
   {
     name: "Saurabh Painuly",
     role: "B.Tech CSE Student",
     linkedin: "https://www.linkedin.com/in/saurabh-painuly-012381256",
-    photo: "../mediaContent/charlie.jpg",
+    photo: SaurabhPhoto,
   },
   {
     name: "Aanchal Agarwal",
     role: "B.Tech CSE Student",
-    linkedin: "https://www.linkedin.com/in/danawhite",
-    photo: "../mediaContent/dana.jpg",
+    linkedin: "https://www.linkedin.com/in/anchal-agarwal-984a1a26a",
+    photo: AanchalPhoto,
+  },
+  {
+    name: "Sandarbh Singhal",
+    role: "B.Tech CSE Student",
+    linkedin: "https://www.linkedin.com/in/sandarbh-singhal",
+    photo: SandarbhPhoto,
   },
 ];
 
@@ -74,7 +84,7 @@ export default function About() {
                 <img
                   src={member.photo}
                   alt={member.name}
-                  className="w-24 h-24 rounded-full mb-4 object-cover"
+                  className="w-56 h-56 rounded-full mb-3 object-cover"
                 />
                 <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
                 <p className="text-gray-600 mb-4">{member.role}</p>
