@@ -1,9 +1,6 @@
 import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
-<<<<<<< HEAD
-
-=======
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+import Footer from "../components/Footer";
 import {
   getDownloadURL,
   getStorage,
@@ -65,11 +62,8 @@ export default function Profile() {
       }
     );
   };
-<<<<<<< HEAD
   const { email } = useSelector((state) => state.user);
 
-=======
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -125,124 +119,107 @@ export default function Profile() {
       dispatch(deleteUserFailure(data.message));
     }
   };
-<<<<<<< HEAD
 
-=======
-  const handleShowListings = async () => {
-    try {
-      setShowListingsError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
-      const data = await res.json();
-      if (data.success === false) {
-        setShowListingsError(true);
-        return;
-      }
-      setUserListings(data);
-    } catch (error) {
-      setShowListingsError(true);
-    }
-  };
-
-  const handleListingDelete = async (listingId) => {
-    try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        console.log(data.message);
-        return;
-      }
-
-      setUserListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
-      );
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
   return (
-    <div className="p-3 max-w-lg mx-auto mt-7">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          ref={fileRef}
-          hidden
-          accept="image/*"
-        />
-        <img
-          onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar}
-          alt="profile"
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
-        />
-        <p className="text-sm self-center">
-          {fileUploadError ? (
-            <span className="text-red-700">
-              Error Image upload (image must be less than 2 mb)
+    <div>
+      <div
+        className="min-h-screen bg-cover bg-center flex items-center justify-center"
+        style={{
+          backgroundImage:
+            "url('https://wallpaperaccess.com/full/2124388.jpg')",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="p-3 max-w-lg w-full mx-auto  bg-white bg-opacity-35 rounded-lg shadow-lg">
+          <h1 className="text-3xl font-semibold text-center my-4">Profile</h1>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <input
+              onChange={(e) => setFile(e.target.files[0])}
+              type="file"
+              ref={fileRef}
+              hidden
+              accept="image/*"
+            />
+            <div className="flex justify-center">
+              <img
+                onClick={() => fileRef.current.click()}
+                src={formData.avatar || currentUser.avatar}
+                alt="profile"
+                className="rounded-full w-32 h-32 object-cover cursor-pointer border-4 border-white"
+              />
+            </div>
+            <p className="text-sm text-center">
+              {fileUploadError ? (
+                <span className="text-red-700">
+                  Error Image upload (image must be less than 2 mb)
+                </span>
+              ) : filePerc > 0 && filePerc < 100 ? (
+                <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+              ) : filePerc === 100 ? (
+                <span className="text-green-700">
+                  Image successfully uploaded!
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
+            <input
+              type="text"
+              placeholder="Username"
+              defaultValue={currentUser.username}
+              id="username"
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              id="email"
+              defaultValue={currentUser.email}
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={handleChange}
+              id="password"
+              className="border p-3 rounded-lg"
+            />
+            <button
+              disabled={loading}
+              className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+            >
+              {loading ? "Loading..." : "Update"}
+            </button>
+            <Link
+              className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+              to={"/LandSat"}
+            >
+              Get Started
+            </Link>
+          </form>
+          <div className="flex justify-between mt-5">
+            <span
+              onClick={handleDeleteUser}
+              className="text-red-700 cursor-pointer"
+            >
+              Delete account
             </span>
-          ) : filePerc > 0 && filePerc < 100 ? (
-            <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
-          ) : filePerc === 100 ? (
-            <span className="text-green-700">Image successfully uploaded!</span>
-          ) : (
-            ""
-          )}
-        </p>
-        <input
-          type="text"
-          placeholder="username"
-          defaultValue={currentUser.username}
-          id="username"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          placeholder="email"
-          id="email"
-          defaultValue={currentUser.email}
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={handleChange}
-          id="password"
-          className="border p-3 rounded-lg"
-        />
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
-        >
-          {loading ? "Loading..." : "Update"}
-        </button>
-        <Link
-          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
-          to={"/Notification"}
-        >
-          Get Notification
-        </Link>
-      </form>
-      <div className="flex justify-between mt-5">
-        <span
-          onClick={handleDeleteUser}
-          className="text-red-700 cursor-pointer"
-        >
-          Delete account
-        </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
-          Sign out
-        </span>
+            <span
+              onClick={handleSignOut}
+              className="text-red-700 cursor-pointer"
+            >
+              Sign out
+            </span>
+          </div>
+          <p className="text-red-700 mt-5">{error ? error : ""}</p>
+          <p className="text-green-700 mt-5">
+            {updateSuccess ? "User is updated successfully!" : ""}
+          </p>
+        </div>
       </div>
-      <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
-        {updateSuccess ? "User is updated successfully!" : ""}
-      </p>
+      <Footer />
     </div>
   );
 }
