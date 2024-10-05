@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, {
   createContext,
   useContext,
@@ -6,20 +5,15 @@ import React, {
   useEffect,
   useState,
 } from "react";
-=======
-import React, { useContext, useRef, useEffect, useState } from "react";
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+
+import Footer from "../components/Footer";
 import L from "leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder";
 import SatelliteContext from "./SatelliteContext";
-<<<<<<< HEAD
 export const LandsatContext = createContext();
-=======
-
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
 // Define a red marker icon
 const redMarkerIcon = new L.Icon({
   iconUrl: "src/mediaContent/redmark.png",
@@ -40,11 +34,7 @@ const blueMarkerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-<<<<<<< HEAD
 const MapComponent = ({ children }) => {
-=======
-const MapComponent = () => {
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
   // const { satelliteData } = useContext(SatelliteContext);
   const mapRef = useRef(null);
   const [coords, setCoords] = useState({ lat: null, lng: null });
@@ -327,133 +317,127 @@ const MapComponent = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start lg:items-center p-4 space-y-4 lg:space-y-0 lg:space-x-4">
-      <div className="flex flex-col flex-[3] lg:w-1/2 space-y-4 sm: mx-auto w-[90vw]">
-        <div>
-          <h3 className="text-lg font-semibold">Previous Coordinates</h3>
-          {previousCoords ? (
-            <p>
-              Latitude: {previousCoords.lat.toFixed(4)}, Longitude:{" "}
-              {previousCoords.lng.toFixed(4)}
+    <div>
+      <div className="mb-40 flex flex-col lg:flex-row items-start lg:items-center p-4 space-y-4 lg:space-y-0 lg:space-x-4">
+        <div className="flex flex-col flex-[3] lg:w-1/2 space-y-4 sm: mx-auto w-[90vw]">
+          <div>
+            <h3 className="text-lg font-semibold">Previous Coordinates</h3>
+            {previousCoords ? (
+              <p>
+                Latitude: {previousCoords.lat.toFixed(4)}, Longitude:{" "}
+                {previousCoords.lng.toFixed(4)}
+              </p>
+            ) : (
+              <p>No previous coordinates available.</p>
+            )}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Previous Address</h3>
+            {previousAddress ? (
+              <p>{previousAddress}</p>
+            ) : (
+              <p>No previous Address available.</p>
+            )}
+          </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div>
+              <label className="block">
+                <input
+                  type="radio"
+                  name="locationType"
+                  value="address"
+                  checked={!inputLat && !inputLng}
+                  onChange={() => {
+                    setInputLat("");
+                    setInputLng("");
+                    setAddress("");
+                  }}
+                  className="mr-2"
+                />
+                Address
+              </label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter address"
+                className="mt-2 p-2 border rounded w-full"
+              />
+            </div>
+            <div>
+              <label className="block">
+                <input
+                  type="radio"
+                  name="locationType"
+                  value="coordinates"
+                  checked={inputLat && inputLng}
+                  onChange={() => {
+                    setAddress("");
+                  }}
+                  className="mr-2"
+                />
+                Coordinates
+              </label>
+              <input
+                type="number"
+                value={inputLat}
+                onChange={(e) => setInputLat(e.target.value)}
+                placeholder="Latitude"
+                step="0.0001"
+                className="mt-2 p-2 border rounded w-full"
+              />
+              <input
+                type="number"
+                value={inputLng}
+                onChange={(e) => setInputLng(e.target.value)}
+                placeholder="Longitude"
+                step="0.0001"
+                className="mt-2 p-2 border rounded w-full"
+              />
+            </div>
+            <div>
+              <label className="block">Radius (km)</label>
+              <input
+                type="number"
+                value={radius}
+                min="0.5"
+                max="500"
+                step="0.1"
+                onChange={(e) => setRadius(parseFloat(e.target.value))}
+                className="mt-2 p-2 border rounded w-full"
+              />
+            </div>
+            <button
+              type="submit"
+              className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <div className="w-full lg:w-1/2 flex-[7]">
+          <div id="map" className="h-[500px] w-full" ref={mapRef}></div>
+          <p id="coordinates" className="mt-4 font-semibold">
+            Click on the map or search for a location to get coordinates.
+            <p className="text-red-700 font-bold ">
+              This section is made to help you with the location on the map you
+              select, This will not effect your tracking system
             </p>
-          ) : (
-            <p>No previous coordinates available.</p>
-          )}
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold">Previous Address</h3>
-          {previousAddress ? (
-            <p>{previousAddress}</p>
-          ) : (
-            <p>No previous Address available.</p>
-          )}
-        </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label className="block">
-              <input
-                type="radio"
-                name="locationType"
-                value="address"
-                checked={!inputLat && !inputLng}
-                onChange={() => {
-                  setInputLat("");
-                  setInputLng("");
-                  setAddress("");
-                }}
-                className="mr-2"
-              />
-              Address
-            </label>
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter address"
-              className="mt-2 p-2 border rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block">
-              <input
-                type="radio"
-                name="locationType"
-                value="coordinates"
-                checked={inputLat && inputLng}
-                onChange={() => {
-                  setAddress("");
-                }}
-                className="mr-2"
-              />
-              Coordinates
-            </label>
-            <input
-              type="number"
-              value={inputLat}
-              onChange={(e) => setInputLat(e.target.value)}
-              placeholder="Latitude"
-              step="0.0001"
-              className="mt-2 p-2 border rounded w-full"
-            />
-            <input
-              type="number"
-              value={inputLng}
-              onChange={(e) => setInputLng(e.target.value)}
-              placeholder="Longitude"
-              step="0.0001"
-              className="mt-2 p-2 border rounded w-full"
-            />
-          </div>
-          <div>
-            <label className="block">Radius (km)</label>
-            <input
-              type="number"
-              value={radius}
-              min="0.5"
-<<<<<<< HEAD
-              max="500"
-=======
-              max="100"
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
-              step="0.1"
-              onChange={(e) => setRadius(parseFloat(e.target.value))}
-              className="mt-2 p-2 border rounded w-full"
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Submit
-          </button>
-        </form>
-      </div>
-      <div className="w-full lg:w-1/2 flex-[7]">
-        <div id="map" className="h-[500px] w-full" ref={mapRef}></div>
-        <p id="coordinates" className="mt-4 font-semibold">
-          Click on the map or search for a location to get coordinates.
-          <p className="text-red-700 font-bold ">
-            This section is made to help you with the location on the map you
-            select, This will not effect your tracking system
           </p>
-        </p>
+        </div>
+        {/* <SatelliteContext map={mapInstance} userLocation={coords} /> */}
+        <SatelliteContext
+          radius={radius}
+          userLocation={coords}
+          notifyUser={true}
+          map={mapInstance}
+        />
+        <LandsatContext.Provider
+          value={{ lat: coords.lat, lng: coords.lng }}
+        ></LandsatContext.Provider>
       </div>
-      {/* <SatelliteContext map={mapInstance} userLocation={coords} /> */}
-      <SatelliteContext
-<<<<<<< HEAD
-        radius={radius}
-=======
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
-        userLocation={coords}
-        notifyUser={true}
-        map={mapInstance}
-      />
-<<<<<<< HEAD
-      <LandsatContext.Provider
-        value={{ lat: coords.lat, lng: coords.lng }}
-      ></LandsatContext.Provider>
-=======
->>>>>>> b3f7f8eefd5197c69f36ad213f268b75aea55c52
+
+      <Footer />
     </div>
   );
 };
