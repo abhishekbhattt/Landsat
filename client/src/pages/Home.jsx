@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <div className="relative h-[90vh] w-full">
+      <div className="relative h-screen w-full">
         {/* Background Video */}
         <video
           className="absolute inset-0 w-full h-full object-cover"
@@ -64,7 +64,7 @@ export default function Home() {
 
       {/* Section 2 */}
       <div className="bg-black text-white py-16 h-auto w-full">
-        <div className="relative h-auto w-full flex flex-col lg:flex-row">
+        <div className="relative h-auto w-full flex flex-col lg:flex-row items-center">
           <div className="w-full lg:w-1/2 h-full flex items-center justify-center bg-gray-800 p-8">
             <div className="text-center">
               <h2 className="text-4xl font-semibold mb-4">
@@ -113,7 +113,7 @@ export default function Home() {
 
       {/* Section 4 */}
       <div className="bg-black text-white py-16 h-auto w-full">
-        <div className="relative h-auto w-full flex flex-col lg:flex-row">
+        <div className="relative h-auto w-full flex flex-col lg:flex-row items-center">
           <div className="w-full lg:w-1/2 h-full flex items-center justify-center bg-gray-800 p-8">
             <div className="text-center">
               <h2 className="text-4xl font-semibold mb-4">
