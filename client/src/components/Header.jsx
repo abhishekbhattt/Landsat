@@ -22,7 +22,7 @@ export default function Header() {
   }, [window.location.search]);
 
   return (
-    <header className="bg-black shadow-md w-full">
+    <header className="bg-black bg-opacity-30 backdrop-blur-sm shadow-md w-full absolute z-10">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-6">
         {/* Left Section */}
         <div className="flex items-center gap-10">
